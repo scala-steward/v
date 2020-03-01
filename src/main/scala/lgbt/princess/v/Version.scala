@@ -17,8 +17,8 @@ trait Version extends Product {
    *
    * @param fact a factory for creating the other type of version
    * @tparam V the type of the other type of version
-   * @return an [[Option]] containing an equivalent version of the other type,
-   *         if this version is compatible with the other type
+   * @return an [[scala.Option Option]] containing an equivalent version of
+   *         the other type, if this version is compatible with the other type
    */
   @inline final def to[V <: Version](fact: VersionFactory[V]): Option[V] = fact from this
 
