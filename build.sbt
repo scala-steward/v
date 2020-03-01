@@ -29,8 +29,7 @@ lazy val v = project
   .in(file("."))
   .settings(
     name := "v",
-    mimaPreviousArtifacts := Set(),
-    mimaFailOnNoPrevious := false,
+    mimaPreviousArtifacts := Set("0.1.0").map(organization.value %% name.value % _),
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "3.1.0" % Test
     ),
