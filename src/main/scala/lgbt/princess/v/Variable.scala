@@ -1,5 +1,6 @@
 package lgbt.princess.v
 
+/** A version of arbitrary size. */
 final class Variable private (val seq: IndexedSeq[Int]) extends Version with Ordered[Variable] {
   type Self = Variable
 
@@ -18,8 +19,17 @@ object Variable extends VersionFactory[Variable] with VersionFactory.Unconstrain
     Ordering.by(_.seq)
   }
 
+  /**
+   * Creates a [[Variable variable-sized version]] with the specified
+   * [[Variable.seq sequence]] of values.
+   */
   def apply(seq: IndexedSeq[Int]): Variable = unsafeFromSeq(seq)
-  def apply(values: Int*): Variable         = apply(values to IndexedSeq)
+
+  /**
+   * Creates a [[Variable variable-sized version]] with the specified
+   * values as its [[Variable.seq sequence]].
+   */
+  def apply(values: Int*): Variable = apply(values.toIndexedSeq)
 
   protected def versionTypeDescription: String              = "version of arbitrary size"
   protected[this] def maxArity: Int                         = -1

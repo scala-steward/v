@@ -60,9 +60,9 @@ trait VersionFactory[+V <: Version] {
    * Creates this factory's type of version from another version.
    *
    * @param other the other version
-   * @return an [[Option]] containing a version of this factory's type equivalent
-   *         to the other version, if the other version is compatible with this
-   *         factory's type
+   * @return an [[scala.Option Option]] containing a version of this factory's
+   *         type equivalent to the other version, if the other version is
+   *         compatible with this factory's type
    */
   final def from(other: Version): Option[V] =
     if (other.factory == this) Some(other.asInstanceOf[V])
@@ -94,9 +94,9 @@ trait VersionFactory[+V <: Version] {
    * Creates this factory's type of version from a sequence of values.
    *
    * @param seq the sequence of values
-   * @return an [[Option]] containing a version of this factory's type equivalent
-   *         to the sequence of values, if the sequence is compatible with this
-   *         factory's type
+   * @return an [[scala.Option Option]] containing a version of this factory's
+   *         type equivalent to the sequence of values, if the sequence is
+   *         compatible with this factory's type
    */
   final def fromSeq(seq: IndexedSeq[Int]): Option[V] =
     Option.when(seq.nonEmpty && isValidArity(seq.length) && isValidSeq(seq)) {
@@ -107,8 +107,8 @@ trait VersionFactory[+V <: Version] {
    * Creates this factory's type of version from a sequence of values.
    *
    * @param seq the sequence of values
-   * @throws IllegalArgumentException if the sequence of values is not compatible
-   *                                  with this factory's type
+   * @throws scala.IllegalArgumentException if the sequence of values is not compatible
+   *                                        with this factory's type
    * @return a version of this factory's type equivalent to the sequence of values
    */
   @throws[IllegalArgumentException]
@@ -143,9 +143,9 @@ trait VersionFactory[+V <: Version] {
    * version.
    *
    * @param version the string representation of a version
-   * @return an [[Option]] containing a version of this factory's type equivalent
-   *         to the string representation of a version, if the string is compatible
-   *         with this factory's type
+   * @return an [[scala.Option Option]] containing a version of this factory's
+   *         type equivalent to the string representation of a version, if the
+   *         string is compatible with this factory's type
    */
   final def parse(version: String): Option[V] =
     if (version.endsWith(".")) None
@@ -195,7 +195,8 @@ trait VersionFactory[+V <: Version] {
    * Extracts a version from a string.
    *
    * @param version the string representation of a version
-   * @return an [[Option]] containing a version, if it is valid for this factory
+   * @return an [[scala.Option Option]] containing a version,
+   *         if it is valid for this factory
    */
   final def unapply(version: String): Option[V] = parse(version)
 }
