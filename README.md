@@ -10,5 +10,5 @@ A library for manipulating and comparing versions
 **Scala 2.13**
 
 ```sbtshell
-libraryDependencies += "lgbt.princess" %% "v" % "0.1.0"
+libraryDependencies += "lgbt.princess" %% "v" % "0.1.1"
 ```
