@@ -27,18 +27,19 @@ final case class V3(major: Int, minor: Int, patch: Int) extends Version with Ord
 
   override def compare(that: V3): Int = V3.ordering.compare(this, that)
 
-  override def equals(that: Any): Boolean = that match {
-    case that: V3 =>
-      this.major == that.major &&
-        this.minor == that.minor &&
-        this.patch == that.patch
-    case v: Version if v.productArity == 3 =>
-      val s = v.seq
-      this.major == s(0) &&
-      this.minor == s(1) &&
-      this.patch == s(2)
-    case _ => false
-  }
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: V3 =>
+        this.major == that.major &&
+          this.minor == that.minor &&
+          this.patch == that.patch
+      case v: Version if v.productArity == 3 =>
+        val s = v.seq
+        this.major == s(0) &&
+        this.minor == s(1) &&
+        this.patch == s(2)
+      case _ => false
+    }
 
   override def toString: String = s"$major.$minor.$patch"
 }

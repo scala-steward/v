@@ -23,13 +23,14 @@ final case class V2(major: Int, minor: Int) extends Version with Ordered[V2] {
 
   def compare(that: V2): Int = V2.ordering.compare(this, that)
 
-  override def equals(that: Any): Boolean = that match {
-    case that: V2 => this.major == that.major && this.minor == that.minor
-    case v: Version if v.productArity == 2 =>
-      val s = v.seq
-      this.major == s(0) && this.minor == s(1)
-    case _ => false
-  }
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: V2 => this.major == that.major && this.minor == that.minor
+      case v: Version if v.productArity == 2 =>
+        val s = v.seq
+        this.major == s(0) && this.minor == s(1)
+      case _ => false
+    }
 
   override def toString: String = s"$major.$minor"
 }

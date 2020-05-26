@@ -31,20 +31,21 @@ final case class V4(major: Int, minor: Int, patch: Int, build: Int) extends Vers
 
   override def compare(that: V4): Int = V4.ordering.compare(this, that)
 
-  override def equals(that: Any): Boolean = that match {
-    case that: V4 =>
-      this.major == that.major &&
-        this.minor == that.minor &&
-        this.patch == that.patch &&
-        this.build == that.build
-    case v: Version if v.productArity == 4 =>
-      val s = v.seq
-      this.major == s(0) &&
-      this.minor == s(1) &&
-      this.patch == s(2) &&
-      this.build == s(3)
-    case _ => false
-  }
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: V4 =>
+        this.major == that.major &&
+          this.minor == that.minor &&
+          this.patch == that.patch &&
+          this.build == that.build
+      case v: Version if v.productArity == 4 =>
+        val s = v.seq
+        this.major == s(0) &&
+        this.minor == s(1) &&
+        this.patch == s(2) &&
+        this.build == s(3)
+      case _ => false
+    }
 
   override def toString: String = s"$major.$minor.$patch.$build"
 }
