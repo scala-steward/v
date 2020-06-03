@@ -38,10 +38,11 @@ trait Version extends Product {
 
   override def canEqual(that: Any): Boolean = that.isInstanceOf[Version]
 
-  override def equals(that: Any): Boolean = that match {
-    case that: Version => (that canEqual this) && this.seq == that.seq
-    case _             => false
-  }
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: Version => (that canEqual this) && this.seq == that.seq
+      case _             => false
+    }
 
   override final def hashCode: Int = seq.hashCode() * Version.hashSeed
 
