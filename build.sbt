@@ -31,7 +31,7 @@ lazy val v = project
     name := "v",
     mimaPreviousArtifacts := Set("0.1.0").map(organization.value %% name.value % _),
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.1.2" % Test
+      "org.scalatest" %% "scalatest" % "3.2.0" % Test
     ),
     scalacOptions ++= {
       if (isSnapshot.value) Nil
