@@ -210,7 +210,8 @@ object VersionFactory {
    */
   trait FixedSize { self: VersionFactory[Version] =>
 
-    /** The arity of versions produced by this factory.
+    /**
+     * The arity of versions produced by this factory.
      *
      * @return a positive integer representing the maximum number of values
      *         in the [[Version.seq sequences]] of versions produced
