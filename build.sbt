@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "2.13.1"
+ThisBuild / scalaVersion := "2.13.3"
 ThisBuild / autoAPIMappings := true
 
 // publishing info
@@ -25,20 +25,44 @@ inThisBuild(
   )
 )
 
-lazy val v = project
+lazy val sharedSettings = Seq(
+  libraryDependencies ++= Seq(
+    "org.scalatest" %% "scalatest" % "3.2.2" % Test
+  ),
+  scalacOptions ++= {
+    if (isSnapshot.value) Nil
+    else Seq("-opt:l:inline", "-opt-inline-from:lgbt.princess.v.**")
+  }
+)
+
+lazy val core = project
+  .in(file("core"))
+  .settings(sharedSettings)
+  .settings(
+    name := "v-core",
+    mimaPreviousArtifacts := Set().map(organization.value %% name.value % _)
+  )
+lazy val coreTest = core % "test->test"
+
+lazy val semver = project
+  .in(file("semver"))
+  .dependsOn(
+    core,
+    coreTest
+  )
+  .settings(sharedSettings)
+  .settings(
+    name := "v-semver",
+    mimaPreviousArtifacts := Set().map(organization.value %% name.value % _)
+  )
+
+lazy val root = project
   .in(file("."))
+  .aggregate(
+    core,
+    semver
+  )
   .settings(
     name := "v",
-    mimaPreviousArtifacts := Set("0.1.0").map(organization.value %% name.value % _),
-    libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.2.2" % Test
-    ),
-    scalacOptions ++= {
-      if (isSnapshot.value) Nil
-      else
-        CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((2, 13)) => Seq("-opt:l:inline", "-opt-inline-from:lgbt.princess.v.**")
-          case _             => Nil
-        }
-    }
+    mimaPreviousArtifacts := Set.empty
   )
