@@ -179,7 +179,7 @@ trait VersionFactory[+V <: Version] {
             throw new VersionFormatException(
               badVersion = version,
               targetTypeDescription = versionTypeDescription,
-              cause = e
+              cause = e,
             )
         }
       val seq = ArraySeq.unsafeWrapArray(ints)

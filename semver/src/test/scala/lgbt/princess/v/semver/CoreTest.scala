@@ -156,4 +156,19 @@ class CoreTest extends BaseSpec {
     Core(1, 2, 3) + B("12") shouldEqual SemVer(Core(1, 2, 3), B("12"))
     Core(1, 2, 3) - PR("alpha") + B("12") shouldEqual SemVer(Core(1, 2, 3), PR("alpha"), B("12"))
   }
+
+  it should "create the next major version" in {
+    Core(0, 1, 0).nextMajorVersion shouldEqual Core(1, 0, 0)
+    Core(1, 2, 3).nextMajorVersion shouldEqual Core(2, 0, 0)
+  }
+
+  it should "create the next minor version" in {
+    Core(0, 1, 0).nextMinorVersion shouldEqual Core(0, 2, 0)
+    Core(1, 2, 3).nextMinorVersion shouldEqual Core(1, 3, 0)
+  }
+
+  it should "create the next patch version" in {
+    Core(0, 1, 0).nextPatchVersion shouldEqual Core(0, 1, 1)
+    Core(1, 2, 3).nextPatchVersion shouldEqual Core(1, 2, 4)
+  }
 }
