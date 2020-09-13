@@ -1,8 +1,10 @@
 # v
 
-[![Build Status](https://travis-ci.org/NthPortal/v.svg?branch=master)](https://travis-ci.org/NthPortal/v)
-[![Coverage Status](https://coveralls.io/repos/github/NthPortal/v/badge.svg?branch=master)](https://coveralls.io/github/NthPortal/v?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/lgbt.princess/v_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/lgbt.princess/v_2.13)
+[![Build Status](https://img.shields.io/travis/NthPortal/v/master?logo=travis&style=for-the-badge)](https://travis-ci.org/NthPortal/v)
+[![Coverage Status](https://img.shields.io/coveralls/github/NthPortal/v/master?logo=coveralls&style=for-the-badge)](https://coveralls.io/github/NthPortal/v?branch=master)
+[![Maven Central](https://img.shields.io/maven-central/v/lgbt.princess/v_2.13?logo=apache-maven&style=for-the-badge)](https://mvnrepository.com/artifact/lgbt.princess/v)
+[![Versioning](https://img.shields.io/badge/versioning-semver%202.0.0-blue.svg?style=for-the-badge)](http://semver.org/spec/v2.0.0.html)
+[![Docs](https://www.javadoc.io/badge2/lgbt.princess/v_2.13/docs.svg?color=blue&style=for-the-badge)](https://www.javadoc.io/doc/lgbt.princess/v_2.13)
 
 A library for manipulating and comparing versions
 
@@ -11,7 +13,7 @@ A library for manipulating and comparing versions
 **Scala 2.13**
 
 ```sbtshell
-libraryDependencies += "lgbt.princess" %% "v-core" % "0.2.0"   // the core library supporting basic version types
-libraryDependencies += "lgbt.princess" %% "v-semver" % "0.2.0" // the SemVer portion of the library (includes "v-core")
-libraryDependencies += "lgbt.princess" %% "v" % "0.2.0"        // all parts of the library
+libraryDependencies += "lgbt.princess" %% "v-core" % "0.3.1"   // the core library supporting basic version types
+libraryDependencies += "lgbt.princess" %% "v-semver" % "0.3.1" // the SemVer portion of the library (includes "v-core")
+libraryDependencies += "lgbt.princess" %% "v" % "0.3.1"        // all parts of the library
 ```
