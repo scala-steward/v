@@ -75,8 +75,8 @@ object Identifiers {
     /**
      * @param values the string values of the identifiers
      * @return identifiers of this factory's type from a sequence of strings
-     * @throws IllegalArgumentException if the any of the identifiers were not valid
-     *                                  for this factory's type
+     * @throws scala.IllegalArgumentException if the any of the identifiers were not valid
+     *                                        for this factory's type
      */
     @throws[IllegalArgumentException]
     final def unsafeFrom(values: Seq[String]): I =
@@ -86,8 +86,8 @@ object Identifiers {
     /**
      * @param values the string values of the identifiers
      * @return identifiers of this factory's type from a sequence of strings
-     * @throws IllegalArgumentException if the any of the identifiers were not valid
-     *                                  for this factory's type
+     * @throws scala.IllegalArgumentException if the any of the identifiers were not valid
+     *                                        for this factory's type
      */
     @throws[IllegalArgumentException]
     @inline final def apply(values: String*): I = unsafeFrom(values)
@@ -107,8 +107,8 @@ object Identifiers {
     /**
      * @param identifiers the string representing the identifiers
      * @return identifiers of this factory's type from the string
-     * @throws IllegalArgumentException if the string did not represent valid
-     *                                  identifiers of this factory's type
+     * @throws scala.IllegalArgumentException if the string did not represent valid
+     *                                        identifiers of this factory's type
      */
     @throws[IllegalArgumentException]
     final def unsafeParse(identifiers: String): I = {

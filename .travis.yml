@@ -14,7 +14,7 @@ env:
 before_install:
   - git fetch --tags
 
-script: sbt ++$TRAVIS_SCALA_VERSION coverage test mimaReportBinaryIssues scalafmtCheckAll scalafmtSbtCheck
+script: sbt ++$TRAVIS_SCALA_VERSION coverage test mimaReportBinaryIssues scalafmtCheckAll scalafmtSbtCheck doc
 
 after_success:
   - sbt ++$TRAVIS_SCALA_VERSION coverageAggregate coveralls
