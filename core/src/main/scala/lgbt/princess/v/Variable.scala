@@ -26,7 +26,7 @@ object Variable extends VersionFactory[Variable] with VersionFactory.Unconstrain
    * Creates a [[Variable variable-sized version]] with the specified
    * [[Variable.seq sequence]] of values.
    *
-   * @throws IllegalArgumentException if the sequence of values is empty
+   * @throws scala.IllegalArgumentException if the sequence of values is empty
    */
   @throws[IllegalArgumentException]
   def apply(seq: IndexedSeq[Int]): Variable = unsafeFromSeq(seq)
@@ -35,7 +35,7 @@ object Variable extends VersionFactory[Variable] with VersionFactory.Unconstrain
    * Creates a [[Variable variable-sized version]] with the specified
    * values as its [[Variable.seq sequence]].
    *
-   * @throws IllegalArgumentException if no values are given
+   * @throws scala.IllegalArgumentException if no values are given
    */
   @throws[IllegalArgumentException]
   def apply(values: Int*): Variable = apply(values.toIndexedSeq)

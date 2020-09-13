@@ -44,7 +44,7 @@ final case class Core(major: Int, minor: Int, patch: Int) extends Version with O
   /**
    * @return a pre-release SemVer version with the given identifiers
    *         to which build identifiers can be added using the
-   *         [[SemVerPreReleaseIntermediate.+ `+`]] operator.
+   *         [[Core.SemVerPreReleaseIntermediate.+ `+`]] operator.
    */
   def -(preRelease: PreRelease): SemVerPreReleaseIntermediate =
     new SemVerPreReleaseIntermediate(SemVer(this, preRelease))
