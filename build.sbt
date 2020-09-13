@@ -68,6 +68,10 @@ lazy val root = project
     core,
     semver,
   )
+  .dependsOn(
+    core,
+    semver,
+  )
   .settings(
     name := "v",
     mimaPreviousArtifacts := Set.empty,
