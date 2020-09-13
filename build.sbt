@@ -12,16 +12,16 @@ inThisBuild(
         "NthPortal",
         "April | Princess",
         "dev@princess.lgbt",
-        url("https://nthportal.com")
+        url("https://nthportal.com"),
       )
     ),
     scmInfo := Some(
       ScmInfo(
         url("https://github.com/NthPortal/v"),
         "scm:git:git@github.com:NthPortal/v.git",
-        "scm:git:git@github.com:NthPortal/v.git"
+        "scm:git:git@github.com:NthPortal/v.git",
       )
-    )
+    ),
   )
 )
 
@@ -29,10 +29,16 @@ lazy val sharedSettings = Seq(
   libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "3.2.2" % Test
   ),
+  scalacOptions ++= Seq(
+    "-deprecation",
+    "-feature",
+    "-Xlint",
+    "-Werror",
+  ),
   scalacOptions ++= {
     if (isSnapshot.value) Nil
     else Seq("-opt:l:inline", "-opt-inline-from:lgbt.princess.v.**")
-  }
+  },
 )
 
 lazy val core = project
@@ -40,7 +46,7 @@ lazy val core = project
   .settings(sharedSettings)
   .settings(
     name := "v-core",
-    mimaPreviousArtifacts := Set().map(organization.value %% name.value % _)
+    mimaPreviousArtifacts := Set().map(organization.value %% name.value % _),
   )
 lazy val coreTest = core % "test->test"
 
@@ -48,21 +54,21 @@ lazy val semver = project
   .in(file("semver"))
   .dependsOn(
     core,
-    coreTest
+    coreTest,
   )
   .settings(sharedSettings)
   .settings(
     name := "v-semver",
-    mimaPreviousArtifacts := Set().map(organization.value %% name.value % _)
+    mimaPreviousArtifacts := Set().map(organization.value %% name.value % _),
   )
 
 lazy val root = project
   .in(file("."))
   .aggregate(
     core,
-    semver
+    semver,
   )
   .settings(
     name := "v",
-    mimaPreviousArtifacts := Set.empty
+    mimaPreviousArtifacts := Set.empty,
   )

@@ -4,6 +4,7 @@ package semver
 import lgbt.princess.v.semver.Identifiers.{Build, PreRelease}
 
 import scala.collection.immutable.ArraySeq
+import scala.language.implicitConversions
 
 /**
  * A SemVer version core.
@@ -13,9 +14,32 @@ import scala.collection.immutable.ArraySeq
  * @param patch the patch number
  */
 final case class Core(major: Int, minor: Int, patch: Int) extends Version with Ordered[Core] {
+  import Core._
+
   require(major >= 0 && minor >= 0 && patch >= 0, "SemVer core identifiers must be non-negative")
 
   type Self = Core
+
+  /**
+   * @return a version core with the major version number incremented as
+   *         described in [[https://semver.org/#spec-item-8 item 8]] of the
+   *         SemVer specification.
+   */
+  def nextMajorVersion: Core = copy(major = major + 1, minor = 0, patch = 0)
+
+  /**
+   * @return a version core with the minor version number incremented as
+   *         described in [[https://semver.org/#spec-item-7 item 7]] of the
+   *         SemVer specification.
+   */
+  def nextMinorVersion: Core = copy(minor = minor + 1, patch = 0)
+
+  /**
+   * @return a version core with the patch version number incremented as
+   *         described in [[https://semver.org/#spec-item-6 item 6]] of the
+   *         SemVer specification.
+   */
+  def nextPatchVersion: Core = copy(patch = patch + 1)
 
   /**
    * @return a pre-release SemVer version with the given identifiers
@@ -35,7 +59,7 @@ final case class Core(major: Int, minor: Int, patch: Int) extends Version with O
 
   def factory: VersionFactory[Core] = Core
 
-  override def compare(that: Core): Int = Core.ordering.compare(this, that)
+  override def compare(that: Core): Int = ordering.compare(this, that)
 
   override def equals(that: Any): Boolean =
     that match {
@@ -70,4 +94,25 @@ object Core extends VersionFactory[Core] with VersionFactory.FixedSize {
   protected[this] def isValidSeq(seq: IndexedSeq[Int]): Boolean    = seq.forall(_ >= 0)
   protected[this] def uncheckedFromSeq(seq: IndexedSeq[Int]): Core = apply(seq(0), seq(1), seq(2))
 
+  /**
+   * The core and pre-release identifiers of a SemVer version,
+   * without build identifiers. This is an intermediate representation
+   * for convenience when creating a [[SemVer]] using symbolic methods.
+   */
+  final class SemVerPreReleaseIntermediate private[Core] (private val self: SemVer) extends AnyVal {
+
+    /** @return a pre-release SemVer version with the given build identifiers. */
+    def +(build: Build): SemVer = self.copy(build = Some(build))
+
+    /** @return this pre-release SemVer version with no build identifiers. */
+    @inline def toSemVer: SemVer = self
+
+    /** @return this pre-release SemVer version with no build identifiers. */
+    @inline def withoutMetadata: SemVer = toSemVer
+  }
+
+  object SemVerPreReleaseIntermediate {
+    implicit def intermediateToSemVer(intermediate: SemVerPreReleaseIntermediate): SemVer =
+      intermediate.toSemVer
+  }
 }

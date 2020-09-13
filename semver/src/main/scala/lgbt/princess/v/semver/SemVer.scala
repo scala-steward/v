@@ -14,8 +14,10 @@ import scala.collection.mutable.{StringBuilder => SStringBuilder}
  * @param preRelease the pre-release identifiers, if any
  * @param build      the build identifiers, if any
  */
-final case class SemVer(core: Core, preRelease: Option[PreRelease], build: Option[Build]) {
+final case class SemVer(core: Core, preRelease: Option[PreRelease], build: Option[Build]) extends Ordered[SemVer] {
   import SemVer._
+
+  def compare(that: SemVer): Int = ordering.compare(this, that)
 
   override def toString: String = {
     val sb = new JStringBuilder()
@@ -27,6 +29,12 @@ final case class SemVer(core: Core, preRelease: Option[PreRelease], build: Optio
 }
 
 object SemVer {
+  implicit val ordering: Ordering[SemVer] = (x, y) => {
+    val res1 = x.core compare y.core
+    if (res1 != 0) res1
+    else java.lang.Boolean.compare(x.preRelease.isEmpty, y.preRelease.isEmpty)
+  }
+
   private def appendPrefixed(sb: JStringBuilder, prefix: Char, identifiers: Option[Identifiers]): Unit = {
     if (identifiers.isDefined) {
       sb.append(prefix)
@@ -103,13 +111,10 @@ object SemVer {
       apply(
         Core unsafeParse core,
         preRelease map PreRelease.unsafeParse,
-        build map Build.unsafeParse
+        build map Build.unsafeParse,
       )
     } catch {
       case e: IllegalArgumentException => throw new VersionFormatException(version, "SemVer version", e)
     }
   }
-
-  def unapply(version: String): Option[(Core, Option[PreRelease], Option[Build])] =
-    parse(version) flatMap unapply
 }

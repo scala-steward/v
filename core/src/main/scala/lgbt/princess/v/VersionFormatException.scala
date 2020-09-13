@@ -13,7 +13,7 @@ package lgbt.princess.v
 class VersionFormatException(badVersion: String, targetTypeDescription: String, cause: Throwable)
     extends IllegalArgumentException(
       s"cannot create a $targetTypeDescription from ${VersionFormatException.renderBadVersion(badVersion)}",
-      cause
+      cause,
     ) {
 
   /**
