@@ -13,7 +13,7 @@ A library for manipulating and comparing versions
 **Scala 2.13**
 
 ```sbtshell
-libraryDependencies += "lgbt.princess" %% "v-core" % "0.3.1"   // the core library supporting basic version types
-libraryDependencies += "lgbt.princess" %% "v-semver" % "0.3.1" // the SemVer portion of the library (includes "v-core")
-libraryDependencies += "lgbt.princess" %% "v" % "0.3.1"        // all parts of the library
+libraryDependencies += "lgbt.princess" %% "v-core"   % "0.3.2"  // the core library supporting basic version types
+libraryDependencies += "lgbt.princess" %% "v-semver" % "0.3.2"  // the SemVer portion of the library (includes "v-core")
+libraryDependencies += "lgbt.princess" %% "v"        % "0.3.2"  // all parts of the library
 ```
