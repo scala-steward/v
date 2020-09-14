@@ -75,4 +75,8 @@ lazy val root = project
   .settings(
     name := "v",
     mimaPreviousArtifacts := Set.empty,
+    Compile / doc / sources :=
+      (Compile / doc / sources).value ++
+        (core / Compile / doc / sources).value ++
+        (semver / Compile / doc / sources).value,
   )
