@@ -32,7 +32,11 @@ object SemVer {
   implicit val ordering: Ordering[SemVer] = (x, y) => {
     val res1 = x.core compare y.core
     if (res1 != 0) res1
-    else java.lang.Boolean.compare(x.preRelease.isEmpty, y.preRelease.isEmpty)
+    else
+      (x.preRelease, y.preRelease) match {
+        case (Some(a), Some(b)) => a compare b
+        case (a, b)             => java.lang.Boolean.compare(a.isEmpty, b.isEmpty)
+      }
   }
 
   private def appendPrefixed(sb: JStringBuilder, prefix: Char, identifiers: Option[Identifiers]): Unit = {

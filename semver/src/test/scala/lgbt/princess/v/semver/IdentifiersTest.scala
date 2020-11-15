@@ -76,6 +76,26 @@ class IdentifiersTest extends BaseSpec {
     check(PreRelease("foo", "bar", "baz"), PreRelease("foo", "bar", "baz"))
   }
 
+  it should "be ordered correctly" in {
+    PreRelease("alpha") should be < PreRelease("beta")
+    PreRelease("alpha") should be < PreRelease("alpha", "1")
+    PreRelease("alpha") should be < PreRelease("alpha", "beta")
+    PreRelease("alpha", "1") should be < PreRelease("alpha", "2")
+    PreRelease("alpha", "1") should be < PreRelease("alpha", "beta")
+    PreRelease("alpha", "11") should be < PreRelease("beta", "1")
+
+    PreRelease("alpha") < PreRelease("beta") shouldBe true
+    PreRelease("alpha") < PreRelease("alpha", "1") shouldBe true
+    PreRelease("alpha") < PreRelease("alpha", "beta") shouldBe true
+    PreRelease("alpha", "1") < PreRelease("alpha", "2") shouldBe true
+    PreRelease("alpha", "1") < PreRelease("alpha", "beta") shouldBe true
+    PreRelease("alpha", "11") < PreRelease("beta", "1") shouldBe true
+
+    // large numeric identifiers
+    PreRelease("1" * 100) should be < PreRelease("2" * 100)
+    PreRelease("1" * 100) < PreRelease("2" * 100) shouldBe true
+  }
+
   behavior of "Identifiers.Build"
 
   it should "construct identifiers as an Option from a Seq" in {

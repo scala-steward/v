@@ -33,12 +33,12 @@ class SemVerTest extends BaseSpec {
     SemVer(Core(1, 2, 3)) should be < SemVer(Core(2, 0, 0))
     SemVer(Core(1, 2, 3), PR("alpha")) should be < SemVer(Core(1, 2, 3))
 
-    SemVer(Core(1, 2, 3), PR("alpha")) shouldBeEquiv SemVer(Core(1, 2, 3), PR("beta"))
+    SemVer(Core(1, 2, 3), PR("alpha")) should be < SemVer(Core(1, 2, 3), PR("beta"))
     SemVer(Core(1, 2, 3)) shouldBeEquiv SemVer(Core(1, 2, 3), B("12"))
     SemVer(Core(1, 2, 3), B("11")) shouldBeEquiv SemVer(Core(1, 2, 3), B("12"))
     SemVer(Core(1, 2, 3), PR("alpha"), B("11")) shouldBeEquiv SemVer(Core(1, 2, 3), PR("alpha"), B("12"))
-    SemVer(Core(1, 2, 3), PR("alpha"), B("11")) shouldBeEquiv SemVer(Core(1, 2, 3), PR("beta"), B("12"))
-    SemVer(Core(1, 2, 3), PR("alpha"), B("12")) shouldBeEquiv SemVer(Core(1, 2, 3), PR("beta"), B("12"))
+    SemVer(Core(1, 2, 3), PR("alpha"), B("11")) should be < SemVer(Core(1, 2, 3), PR("beta"), B("12"))
+    SemVer(Core(1, 2, 3), PR("alpha"), B("12")) should be < SemVer(Core(1, 2, 3), PR("beta"), B("12"))
 
     SemVer(Core(1, 2, 3)) < SemVer(Core(1, 2, 4), PR("alpha")) shouldBe true
     SemVer(Core(1, 2, 3)) < SemVer(Core(1, 3, 0), PR("alpha")) shouldBe true
@@ -48,12 +48,12 @@ class SemVerTest extends BaseSpec {
     SemVer(Core(1, 2, 3)) < SemVer(Core(2, 0, 0)) shouldBe true
     SemVer(Core(1, 2, 3), PR("alpha")) < SemVer(Core(1, 2, 3)) shouldBe true
 
-    SemVer(Core(1, 2, 3), PR("alpha")) equiv SemVer(Core(1, 2, 3), PR("beta")) shouldBe true
+    SemVer(Core(1, 2, 3), PR("alpha")) < SemVer(Core(1, 2, 3), PR("beta")) shouldBe true
     SemVer(Core(1, 2, 3)) equiv SemVer(Core(1, 2, 3), B("12")) shouldBe true
     SemVer(Core(1, 2, 3), B("11")) equiv SemVer(Core(1, 2, 3), B("12")) shouldBe true
     SemVer(Core(1, 2, 3), PR("alpha"), B("11")) equiv SemVer(Core(1, 2, 3), PR("alpha"), B("12")) shouldBe true
-    SemVer(Core(1, 2, 3), PR("alpha"), B("11")) equiv SemVer(Core(1, 2, 3), PR("beta"), B("12")) shouldBe true
-    SemVer(Core(1, 2, 3), PR("alpha"), B("12")) equiv SemVer(Core(1, 2, 3), PR("beta"), B("12")) shouldBe true
+    SemVer(Core(1, 2, 3), PR("alpha"), B("11")) < SemVer(Core(1, 2, 3), PR("beta"), B("12")) shouldBe true
+    SemVer(Core(1, 2, 3), PR("alpha"), B("12")) < SemVer(Core(1, 2, 3), PR("beta"), B("12")) shouldBe true
   }
 
   it should "render as a string correctly" in {
