@@ -21,12 +21,17 @@ sealed abstract class Identifiers private[semver] (val values: IndexedSeq[String
 }
 
 object Identifiers {
+  private final val numericRegex = "[0-9]+".r
 
   /** Identifiers for a pre-release. */
-  final class PreRelease private[semver] (_values: IndexedSeq[String]) extends Identifiers(_values) {
+  final class PreRelease private[semver] (_values: IndexedSeq[String])
+      extends Identifiers(_values)
+      with Ordered[PreRelease] {
     protected type Self = PreRelease
 
     protected def identifierType: IdentifierType[PreRelease] = IdentifierType.PreRelease
+
+    def compare(that: PreRelease): Int = PreRelease.ordering.compare(this, that)
 
     override def equals(obj: Any): Boolean =
       obj match {
@@ -66,7 +71,7 @@ object Identifiers {
      *
      * @param values the string values of the identifiers
      * @return an [[scala.Option Option]] from the identifiers if they were
-     *         valid for this factory's type
+     *         valid for this factory's type, or there are no identifiers
      */
     final def from(values: Seq[String]): Option[I] =
       if (values.nonEmpty && values.forall(tpe.isValidIdentifier)) Some(tpe.uncheckedFrom(values))
@@ -76,7 +81,7 @@ object Identifiers {
      * @param values the string values of the identifiers
      * @return identifiers of this factory's type from a sequence of strings
      * @throws scala.IllegalArgumentException if the any of the identifiers were not valid
-     *                                        for this factory's type
+     *                                        for this factory's type, or there are no identifiers
      */
     @throws[IllegalArgumentException]
     final def unsafeFrom(values: Seq[String]): I =
@@ -87,7 +92,7 @@ object Identifiers {
      * @param values the string values of the identifiers
      * @return identifiers of this factory's type from a sequence of strings
      * @throws scala.IllegalArgumentException if the any of the identifiers were not valid
-     *                                        for this factory's type
+     *                                        for this factory's type, or there are no identifiers
      */
     @throws[IllegalArgumentException]
     @inline final def apply(values: String*): I = unsafeFrom(values)
@@ -122,7 +127,41 @@ object Identifiers {
   }
 
   /** Factory for [[PreRelease pre-release identifiers]]. */
-  object PreRelease extends Factory[PreRelease]
+  object PreRelease extends Factory[PreRelease] {
+    object ordering extends Ordering[PreRelease] {
+      def compare(x: PreRelease, y: PreRelease): Int = {
+        val a = x.values.iterator
+        val b = y.values.iterator
+        while (a.hasNext && b.hasNext) {
+          val c        = a.next()
+          val d        = b.next()
+          val cNumeric = numericRegex.matches(c)
+          val dNumeric = numericRegex.matches(d)
+          val res1     = java.lang.Boolean.compare(!cNumeric, !dNumeric)
+          if (res1 != 0) return res1
+          if (cNumeric /* && dNumeric */ ) {
+            try {
+              val cLong = c.toLong
+              val dLong = d.toLong
+              val res2  = java.lang.Long.compare(cLong, dLong)
+              if (res2 != 0) return res2
+            } catch {
+              case _: NumberFormatException => // exceeds max size of a `Long`
+                val cBig = BigInt(c)
+                val dBig = BigInt(d)
+                val res2 = cBig compare dBig
+                if (res2 != 0) return res2
+            }
+          } else /* !cNumeric && !dNumeric */
+            {
+              val res2 = c compareTo d
+              if (res2 != 0) return res2
+            }
+        }
+        java.lang.Boolean.compare(a.hasNext, b.hasNext)
+      }
+    }
+  }
 
   /** Factory for [[Build build identifiers]]. */
   object Build extends Factory[Build]
