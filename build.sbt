@@ -27,7 +27,7 @@ inThisBuild(
 
 lazy val sharedSettings = Seq(
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest" % "3.2.6" % Test
+    "org.scalatest" %% "scalatest" % "3.2.7" % Test
   ),
   scalacOptions ++= Seq(
     "-deprecation",
