@@ -89,6 +89,25 @@ object Core extends VersionFactory[Core] with VersionFactory.FixedSize {
     }
   }
 
+  /** An extractor for valid SemVer version core strings. */
+  final class StringExtractor private[Core] {
+    def unapply(version: String): Option[(Int, Int, Int)] =
+      parse(version).map(v => (v.major, v.minor, v.patch))
+  }
+
+  /**
+   * An extractor for valid SemVer version core strings.
+   *
+   * @example
+   * {{{
+   * "1.2.3" match {
+   *   case Core.string(1, 2, 5) => // does not match this
+   *   case Core.string(1, 2, _) => // matches this
+   * }
+   * }}}
+   */
+  val string: StringExtractor = new StringExtractor
+
   protected def versionTypeDescription: String                     = "SemVer version core"
   protected[this] def arity: Int                                   = 3
   protected[this] def isValidSeq(seq: IndexedSeq[Int]): Boolean    = seq.forall(_ >= 0)

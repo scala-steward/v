@@ -55,6 +55,25 @@ object V3 extends VersionFactory[V3] with VersionFactory.FixedSize with VersionF
     }
   }
 
+  /** An extractor for valid `V3` strings. */
+  final class StringExtractor private[V3] {
+    def unapply(version: String): Option[(Int, Int, Int)] =
+      parse(version).map(v => (v.major, v.minor, v.patch))
+  }
+
+  /**
+   * An extractor for valid `V3` strings.
+   *
+   * @example
+   * {{{
+   * "1.2.3" match {
+   *   case V3.string(1, 2, 5) => // does not match this
+   *   case V3.string(1, 2, _) => // matches this
+   * }
+   * }}}
+   */
+  val string: StringExtractor = new StringExtractor
+
   protected[this] def versionTypeDescription: String             = "version of size 3"
   protected[this] def arity: Int                                 = 3
   protected[this] def uncheckedFromSeq(seq: IndexedSeq[Int]): V3 = apply(seq(0), seq(1), seq(2))

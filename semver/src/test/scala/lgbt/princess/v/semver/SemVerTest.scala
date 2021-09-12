@@ -124,4 +124,17 @@ class SemVerTest extends BaseSpec {
     SemVer(Core(1, 2, 3), PR("alpha")) shouldNotMatch { case _ :- _ + _ => }
     SemVer(Core(1, 2, 3), B("12")) shouldNotMatch { case _ :- _ + _ => }
   }
+
+  it should "extract from strings" in {
+    "1.2.3" shouldMatch { case SemVer.string((1, 2, 3), None, None) => }
+    "1.2.3-alpha" shouldMatch { case SemVer.string((1, 2, 3), Some(Seq("alpha")), None) => }
+    "1.2.3+12" shouldMatch { case SemVer.string((1, 2, 3), None, Some(Seq("12"))) => }
+    "1.2.3-alpha+12" shouldMatch { case SemVer.string((1, 2, 3), Some(Seq("alpha")), Some(Seq("12"))) => }
+
+    "-1.2.3" shouldNotMatch { case SemVer.string(_, _, _) => }
+    "1.-2.3" shouldNotMatch { case SemVer.string(_, _, _) => }
+    "1.2.3-01" shouldNotMatch { case SemVer.string(_, _, _) => }
+    "1.2.3+foo..bar" shouldNotMatch { case SemVer.string(_, _, _) => }
+    "1.2.3-alpha+foo_bar" shouldNotMatch { case SemVer.string(_, _, _) => }
+  }
 }

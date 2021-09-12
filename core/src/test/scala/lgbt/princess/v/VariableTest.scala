@@ -163,4 +163,19 @@ class VariableTest extends BaseSpec {
     Variable(1, 2) shouldNotMatch { case Variable(_, _, _) => }
     Variable(1, 2, 3, 4) shouldNotMatch { case Variable(_, _, _) => }
   }
+
+  it should "extract from strings" in {
+    "1" shouldMatch { case Variable.string(1) => }
+    "0.1.0" shouldMatch { case Variable.string(0, 1, 0) => }
+    "-3.2.-4" shouldMatch { case Variable.string(-3, 2, -4) => }
+
+    "1.2" shouldNotMatch { case Variable.string(_, _, _) => }
+    "1.2.3.4" shouldNotMatch { case Variable.string(_, _, _) => }
+
+    "" shouldNotMatch { case Variable.string(_*) => }
+    " " shouldNotMatch { case Variable.string(_*) => }
+    "1.2." shouldNotMatch { case Variable.string(_*) => }
+    ".1.2" shouldNotMatch { case Variable.string(_*) => }
+    "not a version" shouldNotMatch { case Variable.string(_*) => }
+  }
 }

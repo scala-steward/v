@@ -129,4 +129,18 @@ class V2Test extends BaseSpec {
     a[VersionFormatException] should be thrownBy { V2 unsafeParse "1.2.3" }
     a[VersionFormatException] should be thrownBy { V2 unsafeParse "not a version" }
   }
+
+  it should "extract from strings" in {
+    "1.2" shouldMatch { case V2.string(1, 2) => }
+    "0.1" shouldMatch { case V2.string(0, 1) => }
+    "-1.-2" shouldMatch { case V2.string(-1, -2) => }
+
+    "" shouldNotMatch { case V2.string(_, _) => }
+    " " shouldNotMatch { case V2.string(_, _) => }
+    "1" shouldNotMatch { case V2.string(_, _) => }
+    "1.2." shouldNotMatch { case V2.string(_, _) => }
+    ".1.2" shouldNotMatch { case V2.string(_, _) => }
+    "1.2.3" shouldNotMatch { case V2.string(_, _) => }
+    "not a version" shouldNotMatch { case V2.string(_, _) => }
+  }
 }
