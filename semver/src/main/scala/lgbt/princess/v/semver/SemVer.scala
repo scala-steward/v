@@ -10,6 +10,11 @@ import scala.collection.mutable.{StringBuilder => SStringBuilder}
 /**
  * A SemVer version.
  *
+ * This object is [[scala.Ordered `Ordered`]] consistently with the SemVer
+ * specification, but not with object equality. If you need to order `SemVer`
+ * instances consistently with object equality, use
+ * [[SemVer.ObjectEqualityOrdering.ordering]] instead.
+ *
  * @param core       the version core
  * @param preRelease the pre-release identifiers, if any
  * @param build      the build identifiers, if any
@@ -29,14 +34,33 @@ final case class SemVer(core: Core, preRelease: Option[PreRelease], build: Optio
 }
 
 object SemVer {
-  implicit val ordering: Ordering[SemVer] = (x, y) => {
-    val res1 = x.core compare y.core
-    if (res1 != 0) res1
-    else
-      (x.preRelease, y.preRelease) match {
-        case (Some(a), Some(b)) => a compare b
-        case (a, b)             => java.lang.Boolean.compare(a.isEmpty, b.isEmpty)
-      }
+  private def optionOrderingEmptyHigher[A](implicit ord: Ordering[A]): Ordering[Option[A]] = {
+    case (Some(a), Some(b)) => ord.compare(a, b)
+    case (a, b)             => java.lang.Boolean.compare(a.isEmpty, b.isEmpty)
+  }
+
+  /**
+   * The default [[scala.Ordering `Ordering`]] for SemVer versions. This ordering
+   * is consistent with the SemVer specification, but not with object equality.
+   * If you need an ordering consistent with object equality, use
+   * [[ObjectEqualityOrdering.ordering]].
+   */
+  implicit val ordering: Ordering[SemVer] =
+    Ordering
+      .by[SemVer, Core](_.core)
+      .orElseBy(_.preRelease)(optionOrderingEmptyHigher)
+
+  object ObjectEqualityOrdering {
+
+    /**
+     * A secondary [[scala.Ordering `Ordering`]] for SemVer versions. This ordering
+     * is consistent with object equality, but not with the SemVer specification.
+     * If you need an ordering consistent with the SemVer specification, use
+     * [[SemVer.ordering]] (which is the default).
+     */
+    implicit val ordering: Ordering[SemVer] =
+      SemVer.ordering
+        .orElseBy(_.build)(optionOrderingEmptyHigher(Ordering.by(_.toString)))
   }
 
   private def appendPrefixed(sb: JStringBuilder, prefix: Char, identifiers: Option[Identifiers]): Unit = {

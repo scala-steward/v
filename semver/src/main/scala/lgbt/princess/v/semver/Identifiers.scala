@@ -128,7 +128,7 @@ object Identifiers {
 
   /** Factory for [[PreRelease pre-release identifiers]]. */
   object PreRelease extends Factory[PreRelease] {
-    object ordering extends Ordering[PreRelease] {
+    implicit val ordering: Ordering[PreRelease] = new Ordering[PreRelease] {
       def compare(x: PreRelease, y: PreRelease): Int = {
         val a = x.values.iterator
         val b = y.values.iterator

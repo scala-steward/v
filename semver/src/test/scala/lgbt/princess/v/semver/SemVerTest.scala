@@ -56,6 +56,26 @@ class SemVerTest extends BaseSpec {
     SemVer(Core(1, 2, 3), PR("alpha"), B("12")) < SemVer(Core(1, 2, 3), PR("beta"), B("12")) shouldBe true
   }
 
+  it should "be ordered consistently with object equality using the secondary ordering" in {
+    import SemVer.ObjectEqualityOrdering.ordering
+
+    SemVer(Core(1, 2, 3)) should be < SemVer(Core(1, 2, 4), PR("alpha"))
+    SemVer(Core(1, 2, 3)) should be < SemVer(Core(1, 3, 0), PR("alpha"))
+    SemVer(Core(1, 2, 3)) should be < SemVer(Core(2, 0, 0), PR("alpha"))
+    SemVer(Core(1, 2, 3)) should be < SemVer(Core(1, 2, 4))
+    SemVer(Core(1, 2, 3)) should be < SemVer(Core(1, 3, 0))
+    SemVer(Core(1, 2, 3)) should be < SemVer(Core(2, 0, 0))
+    SemVer(Core(1, 2, 3), PR("alpha")) should be < SemVer(Core(1, 2, 3))
+
+    SemVer(Core(1, 2, 3), PR("alpha")) should be < SemVer(Core(1, 2, 3), PR("beta"))
+    SemVer(Core(1, 2, 3)) should be > SemVer(Core(1, 2, 3), B("12"))
+    SemVer(Core(1, 2, 3), B("11")) should be < SemVer(Core(1, 2, 3), B("12"))
+    SemVer(Core(1, 2, 3), PR("alpha"), B("11")) shouldBeEquiv SemVer(Core(1, 2, 3), PR("alpha"), B("11"))
+    SemVer(Core(1, 2, 3), PR("alpha"), B("11")) should be < SemVer(Core(1, 2, 3), PR("alpha"), B("12"))
+    SemVer(Core(1, 2, 3), PR("alpha"), B("11")) should be < SemVer(Core(1, 2, 3), PR("beta"), B("12"))
+    SemVer(Core(1, 2, 3), PR("alpha"), B("12")) should be < SemVer(Core(1, 2, 3), PR("beta"), B("12"))
+  }
+
   it should "render as a string correctly" in {
     SemVer(Core(1, 2, 3)).toString shouldBe "1.2.3"
     SemVer(Core(1, 2, 3), PR("alpha")).toString shouldBe "1.2.3-alpha"
