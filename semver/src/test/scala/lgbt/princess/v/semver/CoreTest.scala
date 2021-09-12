@@ -148,6 +148,20 @@ class CoreTest extends BaseSpec {
     a[VersionFormatException] should be thrownBy { Core unsafeParse "not a version" }
   }
 
+  it should "extract from strings" in {
+    "1.2.3" shouldMatch { case Core.string(1, 2, 3) => }
+    "0.1.0" shouldMatch { case Core.string(0, 1, 0) => }
+
+    "" shouldNotMatch { case Core.string(_, _, _) => }
+    " " shouldNotMatch { case Core.string(_, _, _) => }
+    "-1.2.3" shouldNotMatch { case Core.string(_, _, _) => }
+    "1.2" shouldNotMatch { case Core.string(_, _, _) => }
+    "1.2.3." shouldNotMatch { case Core.string(_, _, _) => }
+    ".1.2.3" shouldNotMatch { case Core.string(_, _, _) => }
+    "1.2.3.4" shouldNotMatch { case Core.string(_, _, _) => }
+    "not a version" shouldNotMatch { case Core.string(_, _, _) => }
+  }
+
   it should "construct SemVer versions using symbolic and extension methods" in {
     Core(1, 2, 3).toSemVer shouldEqual SemVer(Core(1, 2, 3))
     (Core(1, 2, 3) - PR("alpha"): SemVer) shouldEqual SemVer(Core(1, 2, 3), PR("alpha"))

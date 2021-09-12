@@ -141,4 +141,18 @@ class V4Test extends BaseSpec {
     a[VersionFormatException] should be thrownBy { V4 unsafeParse "1.2.3.4.5" }
     a[VersionFormatException] should be thrownBy { V4 unsafeParse "not a version" }
   }
+
+  it should "extract from strings" in {
+    "1.2.3.4" shouldMatch { case V4.string(1, 2, 3, 4) => }
+    "0.1.0.0" shouldMatch { case V4.string(0, 1, 0, 0) => }
+    "-1.-2.-3.-4" shouldMatch { case V4.string(-1, -2, -3, -4) => }
+
+    "" shouldNotMatch { case V4.string(_, _, _, _) => }
+    " " shouldNotMatch { case V4.string(_, _, _, _) => }
+    "1.2.3" shouldNotMatch { case V4.string(_, _, _, _) => }
+    "1.2.3.4." shouldNotMatch { case V4.string(_, _, _, _) => }
+    ".1.2.3.4" shouldNotMatch { case V4.string(_, _, _, _) => }
+    "1.2.3.4.5" shouldNotMatch { case V4.string(_, _, _, _) => }
+    "not a version" shouldNotMatch { case V4.string(_, _, _, _) => }
+  }
 }

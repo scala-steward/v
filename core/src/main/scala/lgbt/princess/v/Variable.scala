@@ -22,6 +22,25 @@ object Variable extends VersionFactory[Variable] with VersionFactory.Unconstrain
     Ordering.by(_.seq)
   }
 
+  /** An extractor for valid version strings with arbitrary numbers of identifiers. */
+  final class StringExtractor private[Variable] {
+    def unapplySeq(version: String): Option[Seq[Int]] =
+      parse(version).map(_.seq)
+  }
+
+  /**
+   * An extractor for valid version strings with arbitrary numbers of identifiers.
+   *
+   * @example
+   * {{{
+   * "1.2.3" match {
+   *   case Variable.string(1, 2, 5) => // does not match this
+   *   case Variable.string(1, 2, _) => // matches this
+   * }
+   * }}}
+   */
+  val string: StringExtractor = new StringExtractor
+
   /**
    * Creates a [[Variable variable-sized version]] with the specified
    * [[Variable.seq sequence]] of values.

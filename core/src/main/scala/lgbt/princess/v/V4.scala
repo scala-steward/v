@@ -63,6 +63,25 @@ object V4 extends VersionFactory[V4] with VersionFactory.FixedSize with VersionF
     }
   }
 
+  /** An extractor for valid `V4` strings. */
+  final class StringExtractor private[V4] {
+    def unapply(version: String): Option[(Int, Int, Int, Int)] =
+      parse(version).map(v => (v.major, v.minor, v.patch, v.build))
+  }
+
+  /**
+   * An extractor for valid `V4` strings.
+   *
+   * @example
+   * {{{
+   * "1.2.3.4" match {
+   *   case V4.string(1, 2, 3, 5) => // does not match this
+   *   case V4.string(1, 2, 3, _) => // matches this
+   * }
+   * }}}
+   */
+  val string: StringExtractor = new StringExtractor
+
   protected[this] def versionTypeDescription: String = "version of size 4"
   protected[this] def arity: Int                     = 4
 

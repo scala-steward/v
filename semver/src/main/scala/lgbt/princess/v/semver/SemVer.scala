@@ -63,6 +63,27 @@ object SemVer {
         .orElseBy(_.build)(optionOrderingEmptyHigher(Ordering.by(_.toString)))
   }
 
+  final class StringExtractor private[SemVer] {
+    def unapply(version: String): Option[((Int, Int, Int), Option[IndexedSeq[String]], Option[IndexedSeq[String]])] =
+      parse(version).map { sv =>
+        val core = sv.core
+        ((core.major, core.minor, core.patch), sv.preRelease.map(_.values), sv.build.map(_.values))
+      }
+  }
+
+  /**
+   * An extractor for valid SemVer strings.
+   *
+   * @example
+   * {{{
+   * "1.2.3-alpha+abc123" match {
+   *   case SemVer.string((1, 2, 3), None, None) => // does not match this
+   *   case SemVer.string((1, 2, 3), Some(_), _) => // matches this
+   * }
+   * }}}
+   */
+  val string: StringExtractor = new StringExtractor
+
   private def appendPrefixed(sb: JStringBuilder, prefix: Char, identifiers: Option[Identifiers]): Unit = {
     if (identifiers.isDefined) {
       sb.append(prefix)

@@ -43,6 +43,25 @@ object V2 extends VersionFactory[V2] with VersionFactory.FixedSize with VersionF
       else Integer.compare(x.minor, y.minor)
     }
 
+  /** An extractor for valid `V2` strings. */
+  final class StringExtractor private[V2] {
+    def unapply(version: String): Option[(Int, Int)] =
+      parse(version).map(v => (v.major, v.minor))
+  }
+
+  /**
+   * An extractor for valid `V2` strings.
+   *
+   * @example
+   * {{{
+   * "1.2" match {
+   *   case V2.string(1, 3) => // does not match this
+   *   case V2.string(1, _) => // matches this
+   * }
+   * }}}
+   */
+  val string: StringExtractor = new StringExtractor
+
   protected[this] def versionTypeDescription: String = "version of size 2"
   protected[this] def arity: Int                     = 2
 
