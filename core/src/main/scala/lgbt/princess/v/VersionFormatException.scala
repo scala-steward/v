@@ -3,12 +3,13 @@ package lgbt.princess.v
 /**
  * Thrown when attempting to parse an invalid version string.
  *
- * @param badVersion            the invalid version string
- * @param targetTypeDescription a description of the version type being converted
- *                              to; for example, "version of arbitrary size with only
- *                              positive values"
- * @param cause                 another exception (e.g. a `NumberFormatException`)
- *                              causing the version string to be invalid
+ * @param badVersion
+ *   the invalid version string
+ * @param targetTypeDescription
+ *   a description of the version type being converted to; for example, "version of arbitrary size with only positive
+ *   values"
+ * @param cause
+ *   another exception (e.g. a `NumberFormatException`) causing the version string to be invalid
  */
 class VersionFormatException(badVersion: String, targetTypeDescription: String, cause: Throwable)
     extends IllegalArgumentException(
@@ -17,10 +18,11 @@ class VersionFormatException(badVersion: String, targetTypeDescription: String, 
     ) {
 
   /**
-   * @param badVersion            the invalid version string
-   * @param targetTypeDescription a description of the version type being converted
-   *                              to; for example, "version of arbitrary size with only
-   *                              positive values"
+   * @param badVersion
+   *   the invalid version string
+   * @param targetTypeDescription
+   *   a description of the version type being converted to; for example, "version of arbitrary size with only positive
+   *   values"
    */
   def this(badVersion: String, targetTypeDescription: String) = this(badVersion, targetTypeDescription, null)
 }

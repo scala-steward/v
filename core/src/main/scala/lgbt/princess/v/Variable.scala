@@ -42,19 +42,19 @@ object Variable extends VersionFactory[Variable] with VersionFactory.Unconstrain
   val string: StringExtractor = new StringExtractor
 
   /**
-   * Creates a [[Variable variable-sized version]] with the specified
-   * [[Variable.seq sequence]] of values.
+   * Creates a [[Variable variable-sized version]] with the specified [[Variable.seq sequence]] of values.
    *
-   * @throws scala.IllegalArgumentException if the sequence of values is empty
+   * @throws scala.IllegalArgumentException
+   *   if the sequence of values is empty
    */
   @throws[IllegalArgumentException]
   def apply(seq: IndexedSeq[Int]): Variable = unsafeFromSeq(seq)
 
   /**
-   * Creates a [[Variable variable-sized version]] with the specified
-   * values as its [[Variable.seq sequence]].
+   * Creates a [[Variable variable-sized version]] with the specified values as its [[Variable.seq sequence]].
    *
-   * @throws scala.IllegalArgumentException if no values are given
+   * @throws scala.IllegalArgumentException
+   *   if no values are given
    */
   @throws[IllegalArgumentException]
   def apply(values: Int*): Variable = apply(values.toIndexedSeq)
