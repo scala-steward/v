@@ -9,9 +9,12 @@ import scala.language.implicitConversions
 /**
  * A SemVer version core.
  *
- * @param major the major version number
- * @param minor the minor version number
- * @param patch the patch number
+ * @param major
+ *   the major version number
+ * @param minor
+ *   the minor version number
+ * @param patch
+ *   the patch number
  */
 final case class Core(major: Int, minor: Int, patch: Int) extends Version with Ordered[Core] {
   import Core._
@@ -21,30 +24,30 @@ final case class Core(major: Int, minor: Int, patch: Int) extends Version with O
   type Self = Core
 
   /**
-   * @return a version core with the major version number incremented as
-   *         described in [[https://semver.org/#spec-item-8 item 8]] of the
-   *         SemVer specification.
+   * @return
+   *   a version core with the major version number incremented as described in
+   *   [[https://semver.org/#spec-item-8 item 8]] of the SemVer specification.
    */
   def nextMajorVersion: Core = copy(major = major + 1, minor = 0, patch = 0)
 
   /**
-   * @return a version core with the minor version number incremented as
-   *         described in [[https://semver.org/#spec-item-7 item 7]] of the
-   *         SemVer specification.
+   * @return
+   *   a version core with the minor version number incremented as described in
+   *   [[https://semver.org/#spec-item-7 item 7]] of the SemVer specification.
    */
   def nextMinorVersion: Core = copy(minor = minor + 1, patch = 0)
 
   /**
-   * @return a version core with the patch version number incremented as
-   *         described in [[https://semver.org/#spec-item-6 item 6]] of the
-   *         SemVer specification.
+   * @return
+   *   a version core with the patch version number incremented as described in
+   *   [[https://semver.org/#spec-item-6 item 6]] of the SemVer specification.
    */
   def nextPatchVersion: Core = copy(patch = patch + 1)
 
   /**
-   * @return a pre-release SemVer version with the given identifiers
-   *         to which build identifiers can be added using the
-   *         [[Core.SemVerPreReleaseIntermediate.+ `+`]] operator.
+   * @return
+   *   a pre-release SemVer version with the given identifiers to which build identifiers can be added using the
+   *   [[Core.SemVerPreReleaseIntermediate.+ `+`]] operator.
    */
   def -(preRelease: PreRelease): SemVerPreReleaseIntermediate =
     new SemVerPreReleaseIntermediate(SemVer(this, preRelease))
@@ -114,9 +117,8 @@ object Core extends VersionFactory[Core] with VersionFactory.FixedSize {
   protected[this] def uncheckedFromSeq(seq: IndexedSeq[Int]): Core = apply(seq(0), seq(1), seq(2))
 
   /**
-   * The core and pre-release identifiers of a SemVer version,
-   * without build identifiers. This is an intermediate representation
-   * for convenience when creating a [[SemVer]] using symbolic methods.
+   * The core and pre-release identifiers of a SemVer version, without build identifiers. This is an intermediate
+   * representation for convenience when creating a [[SemVer]] using symbolic methods.
    */
   final class SemVerPreReleaseIntermediate private[Core] (private val self: SemVer) extends AnyVal {
 

@@ -1,13 +1,13 @@
-ThisBuild / scalaVersion := "2.13.6"
+ThisBuild / scalaVersion    := "2.13.6"
 ThisBuild / autoAPIMappings := true
 
 // publishing info
 inThisBuild(
   Seq(
-    organization := "lgbt.princess",
+    organization  := "lgbt.princess",
     versionScheme := Some("early-semver"),
-    homepage := Some(url("https://github.com/NthPortal/v")),
-    licenses := Seq("The Apache License, Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
+    homepage      := Some(url("https://github.com/NthPortal/v")),
+    licenses      := Seq("The Apache License, Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
     developers := List(
       Developer(
         "NthPortal",
@@ -140,7 +140,7 @@ lazy val core = project
   .in(file("core"))
   .settings(sharedSettings)
   .settings(
-    name := "v-core",
+    name                  := "v-core",
     mimaPreviousArtifacts := Set().map(organization.value %% name.value % _),
   )
 lazy val coreTest = core % "test->test"
@@ -153,7 +153,7 @@ lazy val semver = project
   )
   .settings(sharedSettings)
   .settings(
-    name := "v-semver",
+    name                  := "v-semver",
     mimaPreviousArtifacts := Set().map(organization.value %% name.value % _),
   )
 
@@ -168,7 +168,7 @@ lazy val root = project
     semver,
   )
   .settings(
-    name := "v",
+    name                  := "v",
     mimaPreviousArtifacts := Set.empty,
     Compile / doc / sources :=
       (Compile / doc / sources).value ++

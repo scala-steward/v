@@ -8,7 +8,8 @@ import scala.collection.immutable.ArraySeq
 /**
  * Identifiers for a pre-release or for build metadata.
  *
- * @param values the sequence of identifiers
+ * @param values
+ *   the sequence of identifiers
  */
 sealed abstract class Identifiers private[semver] (val values: IndexedSeq[String]) {
   protected type Self <: Identifiers
@@ -69,19 +70,23 @@ object Identifiers {
     /**
      * Creates identifiers of this factory's type from a sequence of strings.
      *
-     * @param values the string values of the identifiers
-     * @return an [[scala.Option Option]] from the identifiers if they were
-     *         valid for this factory's type, or there are no identifiers
+     * @param values
+     *   the string values of the identifiers
+     * @return
+     *   an [[scala.Option Option]] from the identifiers if they were valid for this factory's type, or there are no
+     *   identifiers
      */
     final def from(values: Seq[String]): Option[I] =
       if (values.nonEmpty && values.forall(tpe.isValidIdentifier)) Some(tpe.uncheckedFrom(values))
       else None
 
     /**
-     * @param values the string values of the identifiers
-     * @return identifiers of this factory's type from a sequence of strings
-     * @throws scala.IllegalArgumentException if the any of the identifiers were not valid
-     *                                        for this factory's type, or there are no identifiers
+     * @param values
+     *   the string values of the identifiers
+     * @return
+     *   identifiers of this factory's type from a sequence of strings
+     * @throws scala.IllegalArgumentException
+     *   if the any of the identifiers were not valid for this factory's type, or there are no identifiers
      */
     @throws[IllegalArgumentException]
     final def unsafeFrom(values: Seq[String]): I =
@@ -89,10 +94,12 @@ object Identifiers {
       else invalidIdentifiers(values.toString, tpe)
 
     /**
-     * @param values the string values of the identifiers
-     * @return identifiers of this factory's type from a sequence of strings
-     * @throws scala.IllegalArgumentException if the any of the identifiers were not valid
-     *                                        for this factory's type, or there are no identifiers
+     * @param values
+     *   the string values of the identifiers
+     * @return
+     *   identifiers of this factory's type from a sequence of strings
+     * @throws scala.IllegalArgumentException
+     *   if the any of the identifiers were not valid for this factory's type, or there are no identifiers
      */
     @throws[IllegalArgumentException]
     @inline final def apply(values: String*): I = unsafeFrom(values)
@@ -100,9 +107,10 @@ object Identifiers {
     /**
      * Parses identifiers of this factory's type from a string.
      *
-     * @param identifiers the string representing the identifiers
-     * @return an [[scala.Option Option]] from the identifiers if they were
-     *         valid for this factory's type
+     * @param identifiers
+     *   the string representing the identifiers
+     * @return
+     *   an [[scala.Option Option]] from the identifiers if they were valid for this factory's type
      */
     final def parse(identifiers: String): Option[I] = {
       val arr = splitOnDots(identifiers)
@@ -110,10 +118,12 @@ object Identifiers {
     }
 
     /**
-     * @param identifiers the string representing the identifiers
-     * @return identifiers of this factory's type from the string
-     * @throws scala.IllegalArgumentException if the string did not represent valid
-     *                                        identifiers of this factory's type
+     * @param identifiers
+     *   the string representing the identifiers
+     * @return
+     *   identifiers of this factory's type from the string
+     * @throws scala.IllegalArgumentException
+     *   if the string did not represent valid identifiers of this factory's type
      */
     @throws[IllegalArgumentException]
     final def unsafeParse(identifiers: String): I = {

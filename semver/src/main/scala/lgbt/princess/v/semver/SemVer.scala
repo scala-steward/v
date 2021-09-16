@@ -10,14 +10,16 @@ import scala.collection.mutable.{StringBuilder => SStringBuilder}
 /**
  * A SemVer version.
  *
- * This object is [[scala.Ordered `Ordered`]] consistently with the SemVer
- * specification, but not with object equality. If you need to order `SemVer`
- * instances consistently with object equality, use
+ * This object is [[scala.Ordered `Ordered`]] consistently with the SemVer specification, but not with object equality.
+ * If you need to order `SemVer` instances consistently with object equality, use
  * [[SemVer.ObjectEqualityOrdering.ordering]] instead.
  *
- * @param core       the version core
- * @param preRelease the pre-release identifiers, if any
- * @param build      the build identifiers, if any
+ * @param core
+ *   the version core
+ * @param preRelease
+ *   the pre-release identifiers, if any
+ * @param build
+ *   the build identifiers, if any
  */
 final case class SemVer(core: Core, preRelease: Option[PreRelease], build: Option[Build]) extends Ordered[SemVer] {
   import SemVer._
@@ -40,9 +42,8 @@ object SemVer {
   }
 
   /**
-   * The default [[scala.Ordering `Ordering`]] for SemVer versions. This ordering
-   * is consistent with the SemVer specification, but not with object equality.
-   * If you need an ordering consistent with object equality, use
+   * The default [[scala.Ordering `Ordering`]] for SemVer versions. This ordering is consistent with the SemVer
+   * specification, but not with object equality. If you need an ordering consistent with object equality, use
    * [[ObjectEqualityOrdering.ordering]].
    */
   implicit val ordering: Ordering[SemVer] =
@@ -53,9 +54,8 @@ object SemVer {
   object ObjectEqualityOrdering {
 
     /**
-     * A secondary [[scala.Ordering `Ordering`]] for SemVer versions. This ordering
-     * is consistent with object equality, but not with the SemVer specification.
-     * If you need an ordering consistent with the SemVer specification, use
+     * A secondary [[scala.Ordering `Ordering`]] for SemVer versions. This ordering is consistent with object equality,
+     * but not with the SemVer specification. If you need an ordering consistent with the SemVer specification, use
      * [[SemVer.ordering]] (which is the default).
      */
     implicit val ordering: Ordering[SemVer] =
@@ -95,8 +95,8 @@ object SemVer {
   def apply(core: Core): SemVer = apply(core, None, None)
 
   /**
-   * @return a pre-release SemVer version with the given pre-release
-   *         identifiers and no build identifiers.
+   * @return
+   *   a pre-release SemVer version with the given pre-release identifiers and no build identifiers.
    */
   def apply(core: Core, preRelease: PreRelease): SemVer = apply(core, Some(preRelease), None)
 
@@ -104,8 +104,8 @@ object SemVer {
   def apply(core: Core, build: Build): SemVer = apply(core, None, Some(build))
 
   /**
-   * @return a pre-release SemVer version with the given pre-release and
-   *         build identifiers.
+   * @return
+   *   a pre-release SemVer version with the given pre-release and build identifiers.
    */
   def apply(core: Core, preRelease: PreRelease, build: Build): SemVer =
     apply(core, Some(preRelease), Some(build))
@@ -124,9 +124,11 @@ object SemVer {
   /**
    * Parses a string representation of a SemVer version.
    *
-   * @param version the string representation of a version
-   * @return an [[scala.Option Option]] containing the SemVer version represented
-   *         by the string, if it represented a valid SemVer version
+   * @param version
+   *   the string representation of a version
+   * @return
+   *   an [[scala.Option Option]] containing the SemVer version represented by the string, if it represented a valid
+   *   SemVer version
    */
   def parse(version: String): Option[SemVer] = {
     def parseIdentifiers[I <: Identifiers](factory: Factory[I])(identifiers: Option[String]): Option[Option[I]] =
@@ -147,10 +149,12 @@ object SemVer {
   /**
    * Parses a string representation of a SemVer version.
    *
-   * @param version the string representation of a version
-   * @return the SemVer version represented by the string
-   * @throws VersionFormatException if the string did not represent
-   *                                a valid SemVer version
+   * @param version
+   *   the string representation of a version
+   * @return
+   *   the SemVer version represented by the string
+   * @throws VersionFormatException
+   *   if the string did not represent a valid SemVer version
    */
   @throws[VersionFormatException]
   def unsafeParse(version: String): SemVer = {

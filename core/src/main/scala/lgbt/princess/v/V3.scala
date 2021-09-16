@@ -5,9 +5,12 @@ import scala.collection.immutable.ArraySeq
 /**
  * A version with 3 identifiers.
  *
- * @param major the major version number
- * @param minor the minor version number
- * @param patch the patch number
+ * @param major
+ *   the major version number
+ * @param minor
+ *   the minor version number
+ * @param patch
+ *   the patch number
  */
 final case class V3(major: Int, minor: Int, patch: Int) extends Version with Ordered[V3] {
   type Self = V3
