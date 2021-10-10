@@ -54,13 +54,23 @@ object SemVer {
   object ObjectEqualityOrdering {
 
     /**
-     * A secondary [[scala.Ordering `Ordering`]] for SemVer versions. This ordering is consistent with object equality,
-     * but not with the SemVer specification. If you need an ordering consistent with the SemVer specification, use
-     * [[SemVer.ordering]] (which is the default).
+     * A secondary [[scala.Ordering `Ordering`]] for SemVer versions. This `Ordering` is consistent with object
+     * equality, but not with the SemVer specification. If you need an ordering consistent with the SemVer
+     * specification, use [[SemVer.ordering]] (which is the default).
+     *
+     * For `SemVer` instances with different precedence according to the SemVer specification, this `Ordering` behaves
+     * identically to [[SemVer.ordering]]. For `SemVer` instances with the same precedence according to the SemVer
+     * specification, this `Ordering` is only specified insofar as that two instances that are `equal` yield zero when
+     * compared, and two instances that are not `equal` yield a non-zero value when compared. The result of comparison
+     * is not otherwise specified, and may change between runtime environment executions or between arbitrary library
+     * releases.
      */
-    implicit val ordering: Ordering[SemVer] =
+    implicit val ordering: Ordering[SemVer] = {
+      import Ordering.Implicits._
+
       SemVer.ordering
-        .orElseBy(_.build)(optionOrderingEmptyHigher(Ordering.by(_.toString)))
+        .orElseBy(_.build)(optionOrderingEmptyHigher(Ordering.by(_.values)))
+    }
   }
 
   final class StringExtractor private[SemVer] {
