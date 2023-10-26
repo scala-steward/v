@@ -68,8 +68,8 @@ final case class Core(major: Int, minor: Int, patch: Int) extends Version with O
     that match {
       case that: Core =>
         this.major == that.major &&
-          this.minor == that.minor &&
-          this.patch == that.patch
+        this.minor == that.minor &&
+        this.patch == that.patch
       case v: Version if v.productArity == 3 =>
         val s = v.seq
         this.major == s(0) &&
@@ -102,12 +102,12 @@ object Core extends VersionFactory[Core] with VersionFactory.FixedSize {
    * An extractor for valid SemVer version core strings.
    *
    * @example
-   * {{{
+   *   {{{
    * "1.2.3" match {
    *   case Core.string(1, 2, 5) => // does not match this
    *   case Core.string(1, 2, _) => // matches this
    * }
-   * }}}
+   *   }}}
    */
   val string: StringExtractor = new StringExtractor
 
