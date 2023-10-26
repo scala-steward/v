@@ -39,9 +39,9 @@ final case class V4(major: Int, minor: Int, patch: Int, build: Int) extends Vers
     that match {
       case that: V4 =>
         this.major == that.major &&
-          this.minor == that.minor &&
-          this.patch == that.patch &&
-          this.build == that.build
+        this.minor == that.minor &&
+        this.patch == that.patch &&
+        this.build == that.build
       case v: Version if v.productArity == 4 =>
         val s = v.seq
         this.major == s(0) &&
@@ -77,12 +77,12 @@ object V4 extends VersionFactory[V4] with VersionFactory.FixedSize with VersionF
    * An extractor for valid `V4` strings.
    *
    * @example
-   * {{{
+   *   {{{
    * "1.2.3.4" match {
    *   case V4.string(1, 2, 3, 5) => // does not match this
    *   case V4.string(1, 2, 3, _) => // matches this
    * }
-   * }}}
+   *   }}}
    */
   val string: StringExtractor = new StringExtractor
 

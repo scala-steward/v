@@ -34,8 +34,8 @@ final case class V3(major: Int, minor: Int, patch: Int) extends Version with Ord
     that match {
       case that: V3 =>
         this.major == that.major &&
-          this.minor == that.minor &&
-          this.patch == that.patch
+        this.minor == that.minor &&
+        this.patch == that.patch
       case v: Version if v.productArity == 3 =>
         val s = v.seq
         this.major == s(0) &&
@@ -68,12 +68,12 @@ object V3 extends VersionFactory[V3] with VersionFactory.FixedSize with VersionF
    * An extractor for valid `V3` strings.
    *
    * @example
-   * {{{
+   *   {{{
    * "1.2.3" match {
    *   case V3.string(1, 2, 5) => // does not match this
    *   case V3.string(1, 2, _) => // matches this
    * }
-   * }}}
+   *   }}}
    */
   val string: StringExtractor = new StringExtractor
 
