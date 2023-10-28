@@ -85,12 +85,12 @@ object SemVer {
    * An extractor for valid SemVer strings.
    *
    * @example
-   * {{{
+   *   {{{
    * "1.2.3-alpha+abc123" match {
    *   case SemVer.string((1, 2, 3), None, None) => // does not match this
    *   case SemVer.string((1, 2, 3), Some(_), _) => // matches this
    * }
-   * }}}
+   *   }}}
    */
   val string: StringExtractor = new StringExtractor
 

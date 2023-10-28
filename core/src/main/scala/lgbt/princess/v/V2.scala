@@ -55,12 +55,12 @@ object V2 extends VersionFactory[V2] with VersionFactory.FixedSize with VersionF
    * An extractor for valid `V2` strings.
    *
    * @example
-   * {{{
+   *   {{{
    * "1.2" match {
    *   case V2.string(1, 3) => // does not match this
    *   case V2.string(1, _) => // matches this
    * }
-   * }}}
+   *   }}}
    */
   val string: StringExtractor = new StringExtractor
 
