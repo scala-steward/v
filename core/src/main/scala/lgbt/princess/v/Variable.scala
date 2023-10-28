@@ -32,12 +32,12 @@ object Variable extends VersionFactory[Variable] with VersionFactory.Unconstrain
    * An extractor for valid version strings with arbitrary numbers of identifiers.
    *
    * @example
-   * {{{
+   *   {{{
    * "1.2.3" match {
    *   case Variable.string(1, 2, 5) => // does not match this
    *   case Variable.string(1, 2, _) => // matches this
    * }
-   * }}}
+   *   }}}
    */
   val string: StringExtractor = new StringExtractor
 
