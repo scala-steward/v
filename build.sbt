@@ -123,7 +123,7 @@ inThisBuild(
 
 lazy val sharedSettings = Seq(
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest" % "3.2.17" % Test
+    "org.scalatest" %% "scalatest" % "3.2.19" % Test
   ),
   scalacOptions ++= Seq(
     "-feature",
